@@ -21,8 +21,8 @@ map global normal <c-v> "<a-!>xsel -bo<ret>"
 map global insert <c-y> "<a-;><a-|> xsel -ib<ret>"
 map global insert <ins> <c-v>
 map global insert <c-v> "<a-;><a-!> xsel -bo<ret>"
-map global insert <c-p> "<a-;>! xsel -bo<ret>"
-map global insert <c-b> <c-p>
+map global insert <c-b> "<a-;>! xsel -bo<ret>"
+# map global insert <c-b> <c-p>
 
 # comment line
 # TODO use a different shortcut in qwerty
@@ -80,7 +80,7 @@ plug "kak-lsp/kak-lsp" do %{
   # mkdir -p ~/.config/kak-lsp
   # cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
-map -docstring "open lsp" global user l ": enter-user-mode lsp<ret>"
+map -docstring "lsp mode" global user l ": enter-user-mode lsp<ret>"
 # map -docstring "open lsp" normal user <square> ": enter-user-mode lsp<ret>"
 map -docstring "goto next mistake" global normal <F8> ": lsp-find-error --include-warnings<ret>: lsp-hover<ret>"
 map -docstring "lsp hover" global normal <F1> ": lsp-hover<ret>"
@@ -88,7 +88,14 @@ map -docstring "lsp hover" global normal <F1> ": lsp-hover<ret>"
 map -docstring "rename" global normal <F2> ": lsp-rename-prompt<ret>"
 map -docstring "rename" global normal <s-F2> ": lsp-rename %%reg{dquote}<ret>"
 map -docstring "open lsp" global normal <F3> ": enter-user-mode lsp<ret>a<ret>"
-# TODO previous and insert.
+# TODO previous error and insert.
+map global insert <tab> '<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' -docstring 'Select next snippet placeholder'
+map global object a '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object <a-a> '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object f '<a-semicolon>lsp-object Function Method<ret>' -docstring 'LSP function or method'
+map global object t '<a-semicolon>lsp-object Class Interface Struct<ret>' -docstring 'LSP class interface or struct'
+map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
+map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
 # # eval %sh{kak-lsp --kakoune -s $kak_session} # Not needed if you load it with plug.kak
 # hook global WinSetOption filetype=rust %{
