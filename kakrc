@@ -26,8 +26,8 @@ map global insert <c-b> "<a-;>! xsel -bo<ret>"
 
 # comment line
 # TODO use a different shortcut in qwerty
-map global normal <a-lt> ":comment-line<ret>"
-map global insert <a-lt> "<a-;>:comment-line<ret>"
+map global normal <a-q> ": comment-line<ret>"
+map global insert <a-q> "<a-;>: comment-line<ret>"
 
 # plugging in the plugin manager
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
@@ -90,12 +90,14 @@ map -docstring "rename" global normal <s-F2> ": lsp-rename %%reg{dquote}<ret>"
 map -docstring "open lsp" global normal <F3> ": enter-user-mode lsp<ret>a<ret>"
 # TODO previous error and insert.
 map global insert <tab> '<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' -docstring 'Select next snippet placeholder'
-map global object a '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object * '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
 map global object <a-a> '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
 map global object f '<a-semicolon>lsp-object Function Method<ret>' -docstring 'LSP function or method'
 map global object t '<a-semicolon>lsp-object Class Interface Struct<ret>' -docstring 'LSP class interface or struct'
 map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
+# TODO use these technique to select filename ?
+# TODO look for a kak-snippet
 
 # # eval %sh{kak-lsp --kakoune -s $kak_session} # Not needed if you load it with plug.kak
 # hook global WinSetOption filetype=rust %{
