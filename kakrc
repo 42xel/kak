@@ -1,3 +1,6 @@
+# Interstingly, braces are parsed before comments, with unintended consequences
+# IDEA : \K in <a-k> should regex modify the selection. That's kind of what s does except not really.
+
 set-option global ui_options terminal_assistant=cat
 # colorscheme red-phoenix
 
@@ -13,6 +16,8 @@ hook global WinSetOption filetype=kak %{
   set-option window tabstop 2
   set-option window indentwidth %opt{tabstop}
 }
+
+set-option global scrolloff 3,8
 
 # yanking into clipboard (requires xsel install, and X11 forwarding)
 map global normal <c-y> "<a-|> xsel -ib<ret>"
@@ -135,5 +140,6 @@ hook global ModeChange pop:insert:.* %{
 }
 
 source ~/.config/kak/arrow_keys.kak
-source ~/.config/kak/pairs.kak
 source ~/.config/kak/better-gf.kak
+source ~/.config/kak/pairs.kak
+enable-pairs
