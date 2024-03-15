@@ -43,6 +43,10 @@ plug "andreyorst/plug.kak" noload
 # plug "alexherbo2/auto-pairs.kak" config %{
 #   enable-auto-pairs
 # }
+# pairs
+plug "42xel/pairs.kak" config %{
+  enable-pairs
+}
 
 ## TODO: learn to use
 # fzf
@@ -141,5 +145,5 @@ hook global ModeChange pop:insert:.* %{
 
 source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
-source ~/.config/kak/pairs.kak
-enable-pairs
+# source ~/.config/kak/pairs.kak
+# enable-pairs

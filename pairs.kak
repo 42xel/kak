@@ -122,8 +122,11 @@ define-command -docstring \
   map -docstring "surround selections with %arg{1}%arg{2}" global surround <ret> '<esc>: surround "<c-v><ret>"<ret>'
   map -docstring "insert a pair %arg{1}%arg{2} at cursor locations" global insert <a-ret> '<a-;>: insert-pair-insert "<c-v><ret>" "<c-v><ret>"<ret>'
   map -docstring "insert a pair %arg{1}%arg{2} at cursor locations" global surround R '<esc>: insert-pair "<c-v><ret>" "<c-v><ret>"<ret>'
+  toto[]
   map -docstring "surround selections with %arg{1}%arg{2}" global surround <a-R> '<esc>: surround "<c-v><ret>"<ret>'
+  toto[]
 
 }
+toto[]
 
 
