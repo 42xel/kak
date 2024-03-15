@@ -34,8 +34,16 @@ map global insert <c-b> "<a-;>! xsel -bo<ret>"
 map global normal <a-q> ": comment-line<ret>"
 map global insert <a-q> "<a-;>: comment-line<ret>"
 
-# plugging in the plugin manager
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# # plugging in the plugin manager
+# source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# plug "andreyorst/plug.kak" noload
+evaluate-commands %sh{
+    plugins="$kak_config/plugins"
+    mkdir -p "$plugins"
+    [ ! -e "$plugins/plug.kak" ] && \
+        git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
+    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+}
 plug "andreyorst/plug.kak" noload
 
 # ## TODO test and make better
