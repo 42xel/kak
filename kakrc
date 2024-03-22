@@ -72,7 +72,7 @@ plug "andreyorst/fzf.kak" config %{
 map -docstring "fzf" global user z ": fzf-mode<ret>"
 
 ## TODO see if still useful after fzf and harpoon/pokemon
-define-command -docstring "scratch fd-find" -params 0.. fd %{
+define-command -docstring "fd [<arguments>]: scratch fd-find" -params .. fd %{
   edit -scratch *fd*
   execute-keys "gg! fd %arg{@}<ret><a-o>"
 }
@@ -80,7 +80,7 @@ define-command -docstring "scratch fd-find" -params 0.. fd %{
 plug "andreyorst/powerline.kak" defer kakoune-themes %{
   powerline-theme pastel
 } defer powerline %{
-  powerline-format global "session git lsp bufname filetype mode_info lsp line_column position"
+  powerline-format global "git lsp bufname filetype mode_info lsp line_column position session"
   set-option global powerline_separator_thin ""
   set-option global powerline_separator ""
 } config %{
@@ -97,6 +97,7 @@ plug "kak-lsp/kak-lsp" do %{
   # mkdir -p ~/.config/kak-lsp
   # cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
+set-option global lsp_auto_highlight_references true
 map -docstring "lsp mode" global user l ": enter-user-mode lsp<ret>"
 # map -docstring "open lsp" normal user <square> ": enter-user-mode lsp<ret>"
 map -docstring "goto next mistake" global normal <F8> ": lsp-find-error --include-warnings<ret>: lsp-hover<ret>"
@@ -116,24 +117,25 @@ map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP er
 # TODO use these technique to select filename ?
 # TODO look for a kak-snippet
 
-# # eval %sh{kak-lsp --kakoune -s $kak_session} # Not needed if you load it with plug.kak
-# hook global WinSetOption filetype=rust %{
-#   lsp-enable-window
-#   lsp-inlay-diagnostics-enable global
-
-# echo -debug toto
-#   set-option buffer makecmd "cargo build"
-# echo -debug titi
-# }
-#   set-option global makecmd "cargo build"
-
 # rust
 hook global WinSetOption filetype=rust %{
   lsp-enable-window
   # doesn't work, wrong argument count. see ~/.config/kak/plugins/kak-lsp/rc/lsp.kak:2209:5
   # lsp-inlay-diagnostics-enable "global"
 
-  set-option window makecmd "cargo build"
+  set-option window makecmd "cargo build --release"
+  define-command -override -params .. -docstring \
+  "build [<arguments>]: cargo build wrapper utility. All arguments are forwarded to the cargo build command."\
+  build %{
+    set-option window makecmd "cargo build"
+    make %arg{@}
+  }
+  define-command -override -params .. -docstring \
+  "test [<arguments>]: cargo test wrapper utility. All arguments are forwarded to the cargo test command."\
+  test %{
+    set-option window makecmd "cargo test"
+    make %arg{@}
+  }
 
   hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
   hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
@@ -155,3 +157,17 @@ source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
 # source ~/.config/kak/pairs.kak
 # enable-pairs
+
+define-command -params .. -docstring \
+"tree [<arguments>]: execute tree into a buffer, with the following options :
+- -f to have full pathnames.
+- -S to have indentation using plain space characters instead of fancy character art.
+- -F to know file type even without color.
+- whatever arguments provided." \
+tree %{
+  try %{
+     delete-buffer *tree*
+  }
+  edit -scratch *tree*
+  execute-keys "! tree -fSF %arg{@}<ret>"
+}
