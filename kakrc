@@ -53,7 +53,7 @@ plug "andreyorst/plug.kak" noload
 # }
 # pairs
 plug "42xel/pairs.kak" config %{
-  pairs-enable
+  pairs_enable
 }
 
 ## TODO: learn to use
