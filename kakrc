@@ -53,7 +53,7 @@ plug "andreyorst/plug.kak" noload
 # }
 # pairs
 plug "42xel/pairs.kak" config %{
-  enable-pairs
+  pairs-enable
 }
 
 ## TODO: learn to use
@@ -155,8 +155,6 @@ hook global ModeChange pop:insert:.* %{
 
 source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
-# source ~/.config/kak/pairs.kak
-# enable-pairs
 
 define-command -params .. -docstring \
 "tree [<arguments>]: execute tree into a buffer, with the following options :
@@ -171,3 +169,4 @@ tree %{
   edit -scratch *tree*
   execute-keys "! tree -fSF %arg{@}<ret>"
 }
+
