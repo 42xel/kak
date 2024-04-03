@@ -34,6 +34,9 @@ map global insert <c-b> "<a-;>! xsel -bo<ret>"
 map global normal <a-q> ": comment-line<ret>"
 map global insert <a-q> "<a-;>: comment-line<ret>"
 
+source ~/.config/kak/arrow_keys.kak
+source ~/.config/kak/better-gf.kak
+
 # # plugging in the plugin manager
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
 # plug "andreyorst/plug.kak" noload
@@ -53,7 +56,7 @@ plug "andreyorst/plug.kak" noload
 # }
 # pairs
 plug "42xel/pairs.kak" config %{
-  pairs-enable
+  pairs_enable
 }
 
 ## TODO: learn to use
@@ -94,8 +97,8 @@ plug "gustavo-hms/luar" %{
 plug "kak-lsp/kak-lsp" do %{
   cargo install --locked --force --path .
   # optional: if you want to use specific language servers
-  # mkdir -p ~/.config/kak-lsp
-  # cp -n kak-lsp.toml ~/.config/kak-lsp/
+  mkdir -p ~/.config/kak-lsp
+  cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
 map -docstring "lsp mode" global user l ": enter-user-mode lsp<ret>"
 # map -docstring "open lsp" normal user <square> ": enter-user-mode lsp<ret>"
@@ -116,16 +119,8 @@ map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP er
 # TODO use these technique to select filename ?
 # TODO look for a kak-snippet
 
-# # eval %sh{kak-lsp --kakoune -s $kak_session} # Not needed if you load it with plug.kak
-# hook global WinSetOption filetype=rust %{
-#   lsp-enable-window
-#   lsp-inlay-diagnostics-enable global
+# eval %sh{kak-lsp --kakoune -s $kak_session} # Not needed if you load it with plug.kak
 
-# echo -debug toto
-#   set-option buffer makecmd "cargo build"
-# echo -debug titi
-# }
-#   set-option global makecmd "cargo build"
 
 # rust
 hook global WinSetOption filetype=rust %{
@@ -133,7 +128,11 @@ hook global WinSetOption filetype=rust %{
   # doesn't work, wrong argument count. see ~/.config/kak/plugins/kak-lsp/rc/lsp.kak:2209:5
   # lsp-inlay-diagnostics-enable "global"
 
-  set-option window makecmd "cargo build"
+
+  # Auto-formatting on save
+  hook window BufWritePre .* lsp-formatting-sync
+
+  set-option window makecmd "cargo build 2>&1"
 
   hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
   hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
@@ -143,13 +142,3 @@ hook global WinSetOption filetype=rust %{
   }
 }
 
-# auto save on exit insert mode
-hook global ModeChange pop:insert:.* %{
-  try %{
-    write
-    echo "file saved at %sh{date}"
-  }
-}
-
-source ~/.config/kak/arrow_keys.kak
-source ~/.config/kak/better-gf.kak
