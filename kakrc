@@ -75,9 +75,10 @@ plug "andreyorst/fzf.kak" config %{
 map -docstring "fzf" global user z ": fzf-mode<ret>"
 
 ## TODO see if still useful after fzf and harpoon/pokemon
+# TODO : make a lil boilerplate to use fdfind by default (fd is not always the name of the command, depending on package), fd if not available, and default to find with some arguments if fd is not installed.
 define-command -docstring "scratch fd-find" -params 0.. fd %{
   edit -scratch *fd*
-  execute-keys "gg! fd %arg{@}<ret><a-o>"
+  execute-keys "gg! fdfind %arg{@}<ret><a-o>"
 }
 
 plug "andreyorst/powerline.kak" defer kakoune-themes %{
