@@ -142,3 +142,15 @@ hook global WinSetOption filetype=rust %{
   }
 }
 
+# java
+hook global WinSetOption filetype=java %{
+  lsp-enable-window
+
+  hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+  hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+  hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+  hook -once -always window WinSetOption filetype=.* %{
+    remove-hooks window semantic-tokens
+  }
+}
+
