@@ -34,6 +34,13 @@ map global insert <c-b> "<a-;>! xsel -bo<ret>"
 map global normal <a-q> ": comment-line<ret>"
 map global insert <a-q> "<a-;>: comment-line<ret>"
 
+# map global normal f ':on-key %{execute-keys "f%val{key};"}<ret>'
+map global normal f ':f-desel<ret>'
+define-command -hidden f-desel %{
+  execute-keys 'f'
+  on-key %{execute-keys "%val{key};"}
+}
+
 # # plugging in the plugin manager
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
 # plug "andreyorst/plug.kak" noload
