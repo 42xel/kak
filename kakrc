@@ -143,6 +143,19 @@ hook global WinSetOption filetype=rust %{
   }
 }
 
+# perl
+hook global WinSetOption filetype=perl %{
+  set-option buffer tabstop 3
+  set-option window indentwidth %opt{tabstop}
+  pairs_map  /   /  ; pairs_map-alias  /   /  l
+}
+
+# C
+hook global WinSetOption filetype=c %{
+  set-option buffer tabstop 3
+  set-option window indentwidth %opt{tabstop}
+}
+
 # java
 hook global WinSetOption filetype=java %{
   lsp-enable-window
