@@ -8,7 +8,7 @@ set-option global ui_options terminal_assistant=cat
 
 add-highlighter global/ number-lines -hlcursor -min-digits 3
 add-highlighter global/ show-matching
-# add-highlighter global/wrap wrap
+add-highlighter global/wrap wrap
 
 add-highlighter global/show-whitespaces show-whitespaces -spc " "
 set-option global tabstop 3
@@ -63,6 +63,8 @@ plug "andreyorst/plug.kak" noload
 # plug "alexherbo2/auto-pairs.kak" config %{
 #   enable-auto-pairs
 # }
+
+# TODO: fix bug <a-)> quand la selection contient le début du fichier.
 # pairs
 plug "42xel/pairs.kak" config %{
   pairs_enable
@@ -201,6 +203,12 @@ hook global BufCreate .*\.kdl %{
 
 source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
+source ~/.config/kak/gnu_readline.kak
+
+source ~/.config/kak/file_mode.kak
+map global -docstring "a mode to chain actions like write, quit ..." normal <c-esc> ':enter-user-mode -lock file<ret>'
+map global -docstring "a mode to chain actions like write, quit ..." user <c-esc> ':enter-user-mode -lock file<ret>'
+map global -docstring "a mode to chain actions like write, quit ..." user <space> ':enter-user-mode -lock file<ret>'
 
 # TODO completions (for some reason -shell-completion does not work)
 # TODO jumplist
